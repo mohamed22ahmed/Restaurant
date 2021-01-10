@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateOrderSubsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('order_subs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('sub_id');
             $table->string('name');
-            $table->string('email');
-            $table->string('password');
+            $table->string('address');
+            $table->string('phone');
+            $table->date('date');
+            $table->string('notes');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('order_subs');
     }
 }

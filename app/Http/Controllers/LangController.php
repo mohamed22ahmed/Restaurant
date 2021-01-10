@@ -36,6 +36,19 @@ class LangController
         return redirect('/');
     }
 
+    public function reg(){
+        return view('register');
+    }
+
+    public function register(Request $request){
+        $user=new User;
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->password=Hash::make($request->password);
+        $user->save();
+        return redirect('/');
+    }
+
     public function home(){
         return view('home');
     }

@@ -65,29 +65,75 @@
                 <div class="sidebar">
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <li class="nav-item has-treeview {{ url()->current()==url('/tag_setup')?'menu-open':''  }}">
-                                <router-link to='/clients' class="nav-link">
+
+                            <li class="nav-item">
+                                <router-link to='/order' class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Clients
+                                        الطلبات
                                     </p>
                                 </router-link>
                             </li>
 
-                            <li class="nav-item has-treeview {{ url()->current()==url('/tag_setup')?'menu-open':''  }}">
+                            <li class="nav-item">
+                                <router-link to='/sales' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        المبيعات
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
                                 <router-link to='/expenses' class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Expenses
+                                        المصروفات والمشتريات
                                     </p>
                                 </router-link>
                             </li>
 
-                            <li class="nav-item has-treeview {{ url()->current()==url('/monthly_sub')?'menu-open':''  }}">
+                            <li class="nav-item">
+                                <router-link to='/restaurant' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        المطاعم
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to='/menu' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        قائمة الطعام
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to='/delivery' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        الدليفرى
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
+                                <router-link to='/clients' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        العملاء
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item">
                                 <router-link to='/monthly_sub' class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Monthly Subscriptions
+                                        الاشتراكات
                                     </p>
                                 </router-link>
                             </li>

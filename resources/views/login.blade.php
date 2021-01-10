@@ -1,73 +1,105 @@
-
+<!DOCTYPE html>
 <html>
-	<head>
-        <!--TO Support Many Language Include Arabic Language-->
-        <meta charset="utf-8"/>
-        <!--For Internet Explorer-->
-        <meta http-equiv="X-UA-	Compatible"content="IE=edge">
-        <!--First mobilw meta-->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description"content="mt company">
-        <title>Dashboard Login</title>
-        <!--call bootstrap-->
-        <link rel="stylesheet"href="{{asset('login/css/bootstrap.css')}}"/>
-        <!--Page Style-->
-        <link rel="stylesheet"href="{{asset('login/css/s.css')}}"/>
-        <!--Animate.css-->
-        <link rel="stylesheet"href="{{asset('login/css/animate.min.css')}}"/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/css?family=Pacifico"rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Exo+2&display=swap" rel="stylesheet"><!---AOS LAIBIRARY-->
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <!--Internet Explorer-->
-        <script src="{{asset('login/js/html5shiv.min.js')}}"></script>
-        <script src="{{asset('login/js/respond.min.js')}}"></script>
-        <!---->
-	</head>
-	<body>
-		<div class="MainPicDiv2">
-			<div class="container"id="log">
-				<div class="row">
-					<div class="col-sm-6 offset-md-3  wow fadeInUp " data-wow-duration="2s" data-wow-delay="0s" style="padding-top: 60px">
-						<div class="card">
-							<div class="card-body ">
-								<div class="text-center">
-									<img style="border-radius:50%;width: 100px "src="{{asset('login/images/download.jpg')}}">
-								</div><br>
-                                @if ($errors->any())
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                @endif
-                                <form class="form" role="form" autocomplete="off" method="post">
-                                    @csrf
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input class="form-control" type="email" name="email" placeholder="E-mail">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-12">
-                                            <input class="form-control" type="password" name="password" placeholder="Password">
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class=" text-center">
-                                        <input type="submit" value="Log in" class="btn btn-danger">
-                                    </div>
-                                </form>
-							</div>
-						</div>
-					</div>
-			    </div>
-		    </div>
-        </div>
 
-		<script src="{{asset('login/js/wow.min.js')}}"></script>
-		<script>new WOW().init();</script>
-		<script src="{{asset('login/js/jQuery3.3.1.min.js')}}"></script>
-		<script src="{{asset('login/js/bootstrap.min.js')}}"></script>
-		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-		<script src="{{asset('login/js/e.js')}}"></script>
-	</body>
- </html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Login</title>
+    <link rel="stylesheet" href="{{asset('login/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    {{-- <link rel="stylesheet" href="assets/css/style.ccss"> --}}
+    <style>
+        .login-dark {
+            height:750px;
+            background:#475d62;
+            background-size:cover;
+            position:relative;
+        }
+
+        .login-dark form {
+            max-width:400px;
+            width:90%;
+            background-color:#1e2833;
+            padding:40px;
+            /* margin-top: 100px; */
+            border-radius:4px;
+            transform:translate(-50%, -50%);
+            position:absolute;
+            top:50%;
+            left:50%;
+            color:#fff;
+            box-shadow:3px 3px 4px rgba(0,0,0,0.2);
+        }
+
+        .login-dark .illustration {
+            text-align:center;
+            padding:10px 0 20px;
+            font-size:100px;
+            color:#2980ef;
+        }
+
+        .login-dark form .form-control {
+            background:none;
+            border:none;
+            border-bottom:1px solid #434a52;
+            border-radius:0;
+            box-shadow:none;
+            outline:none;
+            color:inherit;
+        }
+
+        .login-dark form .btn-primary {
+            background:#214a80;
+            border:none;
+            border-radius:4px;
+            padding:11px;
+            box-shadow:none;
+            margin-top:26px;
+            text-shadow:none;
+            outline:none;
+        }
+
+        .login-dark form .btn-primary:hover, .login-dark form .btn-primary:active {
+            background:#214a80;
+            outline:none;
+        }
+
+        .login-dark form .forgot {
+            display:block;
+            text-align:center;
+            font-size:12px;
+            color:#6f7a85;
+            opacity:0.9;
+            text-decoration:none;
+        }
+
+        .login-dark form .forgot:hover, .login-dark form .forgot:active {
+            opacity:1;
+            text-decoration:none;
+        }
+
+        .login-dark form .btn-primary:active {
+            transform:translateY(1px);
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="login-dark">
+        <form class="form" role="form" method="post">
+            @csrf
+            <h2 class="text-center">اطلب واتمنى</h2><hr>
+            <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+            <div class="form-group text-center"><a href="/register">Register</a></div>
+        </form>
+    </div>
+    <script src="{{asset('login/js/jquery.min.js')}}"></script>
+    <script src="{{asset('login/js/bootstrap.bundle.min.js')}}"></script>
+</body>
+
+</html>
