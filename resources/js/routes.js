@@ -1,13 +1,17 @@
 import VueRoute from 'vue-router'
 
 
-import tag_setup from './components/Setup/tag_setup'
+import clients from './components/clients'
+import expenses from './components/expenses'
+import monthly_sub from './components/monthly_sub'
 
 import Vue from 'vue'
 import { Form, HasError, AlertError } from 'vform'
 
 const routes = [
-    { name: 'tag_setup', path: '/tag_setup', component: tag_setup },
+    { name: 'clients', path: '/clients', component: clients },
+    { name: 'expenses', path: '/expenses', component: expenses },
+    { name: 'monthly_sub', path: '/monthly_sub', component: monthly_sub },
 ]
 
 

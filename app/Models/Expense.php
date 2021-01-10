@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tag_setup extends Model
+class Expense extends Model
 {
-    protected $table="tag_setups";
+    //
 }

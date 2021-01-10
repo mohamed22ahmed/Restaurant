@@ -21,6 +21,7 @@
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.3.0/css/flag-icon.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script> window.default_locale_lang = "{{ config('app.locale') }}"; </script>
     </head>
 
     <body class="hold-transition sidebar-mini">
@@ -65,22 +66,30 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-item has-treeview {{ url()->current()==url('/tag_setup')?'menu-open':''  }}">
-                                <a href="#" class="nav-link">
+                                <router-link to='/clients' class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Setup
-                                        <i class="right fas fa-angle-left"></i>
+                                        Clients
                                     </p>
-                                </a>
+                                </router-link>
+                            </li>
 
-                                <ul class="nav nav-treeview" style="{{ url()->current()==url('/tag_setup')?'display:block':'' }}">
-                                    <li class="nav-item {{  url()->current()==url('/tag_setup')?'current':'' }}">
-                                        <router-link to='/tag_setup' class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Tag Setup</p>
-                                        </router-link>
-                                    </li>
-                                </ul>
+                            <li class="nav-item has-treeview {{ url()->current()==url('/tag_setup')?'menu-open':''  }}">
+                                <router-link to='/expenses' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Expenses
+                                    </p>
+                                </router-link>
+                            </li>
+
+                            <li class="nav-item has-treeview {{ url()->current()==url('/monthly_sub')?'menu-open':''  }}">
+                                <router-link to='/monthly_sub' class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Monthly Subscriptions
+                                    </p>
+                                </router-link>
                             </li>
                         </ul>
                     </nav>

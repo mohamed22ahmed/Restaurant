@@ -1,3 +1,5 @@
 <?php
 
-Route::apiResources(['tag_setup' => 'API\tag_setupController']);
+Route::apiResources(['clients' => 'API\ClientController']);
+Route::apiResources(['expenses' => 'API\ExpenseController']);
+Route::apiResources(['monthly_sub' => 'API\Monthly_subController']);
