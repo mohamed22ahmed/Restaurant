@@ -16,9 +16,11 @@ class CreateMonthlySubsTable extends Migration
         Schema::create('monthly_subs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('subscription');
+            $table->bigInteger('client_id');
             $table->integer('price');
             $table->integer('period');
             $table->string('supplier_name');
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

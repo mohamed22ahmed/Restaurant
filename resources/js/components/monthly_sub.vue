@@ -26,8 +26,30 @@
                                     <th> ملاحظــات </th>
                                     <th>تعــديل</th>
                                 </tr>
+                                <tr v-for="sub in subs.data" :key="sub.id">
+                                    <td>{{ sub.id }}</td>
+                                    <td>{{ sub.subscription }}</td>
+                                    <td>{{ sub.name }}</td>
+                                    <td>{{ sub.address }}</td>
+                                    <td>{{ sub.phone }}</td>
+                                    <td>{{ sub.created_at }}</td>
+                                    <td>{{ sub.notes }}</td>
+                                    <td>
+                                        <a href="#" @click="editModal(sub)">
+                                            <i class="fa fa-edit blue"></i>
+                                        </a>
+                                        /
+                                        <a href="#" @click="deleteModal(sub.id)">
+                                            <i class="fa fa-trash red"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <pagination :data="subs" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
@@ -44,33 +66,49 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form @submit.prevent="editmode ? updateRes() : createRes()">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="name" class="col-md-4">نوع الاشتراك :</label>
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control" name="name" required autocomplete="name">
+                                <input id="subscription" v-model="form.subscription" type="text" class="form-control" name="subscription" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="phone" class="col-md-4"> سعر الاشتراك :</label>
                             <div class="col-md-8">
-                                <input id="price" type="number" class="form-control" name="price" required autocomplete="type">
+                                <input id="price" v-model="form.price" type="number" class="form-control" name="price" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="period" class="col-md-4">المدة :</label>
                             <div class="col-md-8">
-                                <input id="period" type="number" class="form-control" name="period" required autocomplete="type">
+                                <input id="period" v-model="form.period" type="number" class="form-control" name="period" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="period" class="col-md-4">العميل :</label>
+                            <div class="col-md-8">
+                                <select class="form-control" v-model="form.client_id">
+                                <option v-for="client in clients" :key="client.id" :value="client.id">{{ client.name }}</option>
+                            </select>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="supplier_name" class="col-md-4"> إسم المورد :</label>
                             <div class="col-md-8">
-                                <input id="supplier_name" type="text" class="form-control" name="supplier_name" required autocomplete="type">
+                                <input id="supplier_name" v-model="form.supplier_name" type="text" class="form-control" name="supplier_name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="address" class="col-md-4">ملاحظات :</label>
+                            <div class="col-md-8">
+                                <textarea id="notes" v-model="form.notes" type="text" class="form-control" name="notes" cols="20"></textarea>
                             </div>
                         </div>
                     </div>
@@ -90,24 +128,108 @@
 export default {
     data: function () {
         return {
-            editmode:false,
+            editmode: false,
+            subs: {},
+            clients:{},
+
+            form: new Form({
+                id: '',
+                subscription:'',
+                client_id:'',
+                price:'',
+                period:'',
+                supplier_name:'',
+            })
         }
     },
     methods: {
-        loadUsers: function () {
+        getResults: function () {
             axios.get("api/monthly_sub").then((res) => {
-                console.log(res.data)
+                this.subs = res.data
+            });
+        },
+
+        get_clients(){
+            axios.get("api/monthly_sub_get_clients").then((res) => {
+                this.clients = res.data
             });
         },
 
         newModal() {
+            this.form.reset()
+            this.editmode = false
             $('#addNew').modal('show');
         },
+
+        createRes() {
+            this.$Progress.start();
+            this.form.post('api/monthly_sub').then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Success!',
+                    'تم حفظ البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        editModal(client) {
+            this.editmode = true
+            this.form.fill(client)
+            $('#addNew').modal('show');
+        },
+
+        updateRes() {
+            this.$Progress.start();
+            this.form.put('api/monthly_sub/' + this.form.id).then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Updated!',
+                    'تم تعديل البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        deleteModal(id) {
+            swal.fire({
+                title: 'متأكد ؟',
+                text: "لا يمكنك استرجاع البيانات",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم متأكد !'
+            }).then((result) => {
+                if (result.value) {
+                    this.form.delete('api/monthly_sub/' + id).then(() => {
+                        swal.fire(
+                            'Deleted!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        )
+                        Fire.$emit('AfterCreate');
+                    })
+                }
+            })
+        }
 
     },
 
     created() {
-        this.loadUsers();
+        this.getResults();
+        this.get_clients()
+        Fire.$on('AfterCreate', () => {
+            this.getResults();
+        });
     },
 }
 </script>

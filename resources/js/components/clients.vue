@@ -23,8 +23,27 @@
                                     <th>عنوان العميل</th>
                                     <th>تعديل</th>
                                 </tr>
+                                <tr v-for="client in clients.data" :key="client.id">
+                                    <td>{{ client.id }}</td>
+                                    <td>{{ client.name }}</td>
+                                    <td>{{ client.phone }}</td>
+                                    <td>{{ client.address }}</td>
+                                    <td>
+                                        <a href="#" @click="editModal(client)">
+                                            <i class="fa fa-edit blue"></i>
+                                        </a>
+                                        /
+                                        <a href="#" @click="deleteModal(client.id)">
+                                            <i class="fa fa-trash red"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <pagination :data="clients" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
@@ -41,26 +60,26 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form @submit.prevent="editmode ? updateRes() : createRes()">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="name" class="col-md-4">إسم العميل :</label>
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control" name="name" required>
+                                <input id="name" v-model="form.name" type="text" class="form-control" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="phone" class="col-md-4">رقم العميل :</label>
                             <div class="col-md-8">
-                                <input id="phone" type="text" class="form-control" name="phone" required>
+                                <input id="phone" v-model="form.phone" type="text" class="form-control" name="phone" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="address" class="col-md-4">عنوان العميل :</label>
                             <div class="col-md-8">
-                                <textarea id="address" type="text" class="form-control" name="address" cols="20" required></textarea>
+                                <textarea id="address" v-model="form.address" type="text" class="form-control" name="address" cols="20" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -80,24 +99,98 @@
 export default {
     data: function () {
         return {
-            editmode:false,
+            editmode: false,
+            clients: {},
+
+            form: new Form({
+                id: '',
+                name:'',
+                phone:'',
+                address:'',
+            })
         }
     },
     methods: {
-        loadUsers: function () {
+        getResults: function () {
             axios.get("api/clients").then((res) => {
-                console.log(res.data)
+                this.clients = res.data
             });
         },
 
         newModal() {
+            this.form.reset()
+            this.editmode = false
             $('#addNew').modal('show');
         },
+
+        createRes() {
+            this.$Progress.start();
+            this.form.post('api/clients').then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Success!',
+                    'تم حفظ البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        editModal(client) {
+            this.editmode = true
+            this.form.fill(client)
+            $('#addNew').modal('show');
+        },
+
+        updateRes() {
+            this.$Progress.start();
+            this.form.put('api/clients/' + this.form.id).then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Updated!',
+                    'تم تعديل البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        deleteModal(id) {
+            swal.fire({
+                title: 'متأكد ؟',
+                text: "لا يمكنك استرجاع البيانات",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم متأكد !'
+            }).then((result) => {
+                if (result.value) {
+                    this.form.delete('api/clients/' + id).then(() => {
+                        swal.fire(
+                            'Deleted!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        )
+                        Fire.$emit('AfterCreate');
+                    })
+                }
+            })
+        }
 
     },
 
     created() {
-        this.loadUsers();
+        this.getResults();
+        Fire.$on('AfterCreate', () => {
+            this.getResults();
+        });
     },
 }
 </script>
