@@ -54,11 +54,8 @@
                         style="opacity: 1;height:70px;">
                     </div>
                     <div class="row  justify-content-center">
-                        <span class="brand-text font-weight-light">@if(config('app.locale', 'en')=='en') Car Wash @else مغلسة سيارات @endif</span>
-                    </div>
-                    <div class="row  justify-content-center">
-                        <span class="brand-text font-weight-light">{{ session('user')->name }}</span>
-                    </div>
+                        <span class="brand-text font-weight-light">اطلب واتمنى</span>
+                    </div>  
                 </a>
 
                 {{--  main sidebar  --}}
