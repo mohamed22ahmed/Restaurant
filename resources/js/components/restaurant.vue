@@ -23,8 +23,27 @@
                                     <th>عنوان المطعم</th>
                                     <th>تعديل</th>
                                 </tr>
+                                <tr v-for="res in restaurants.data" :key="res.id">
+                                    <td>{{ res.id }}</td>
+                                    <td>{{ res.name }}</td>
+                                    <td>{{ res.phone }}</td>
+                                    <td>{{ res.address }}</td>
+                                    <td>
+                                        <a href="#" @click="editModal(res)">
+                                            <i class="fa fa-edit blue"></i>
+                                        </a>
+                                        /
+                                        <a href="#" @click="deleteRes(res.id)">
+                                            <i class="fa fa-trash red"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <pagination :data="restaurants" @pagination-change-page="getResults"></pagination>
                     </div>
                 </div>
             </div>
@@ -41,26 +60,26 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form @submit.prevent="editmode ? updateRes() : createRes()">
                     <div class="modal-body">
                         <div class="form-group row">
                             <label for="name" class="col-md-4">إسم المطعم :</label>
                             <div class="col-md-8">
-                                <input id="name" type="text" class="form-control" name="name" required>
+                                <input id="name" v-model="form.name" type="text" class="form-control" name="name" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="phone" class="col-md-4">رقم المطعم :</label>
                             <div class="col-md-8">
-                                <input id="phone" type="text" class="form-control" name="phone" required>
+                                <input id="phone" v-model="form.phone" type="text" class="form-control" name="phone" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="address" class="col-md-4">عنوان المطعم :</label>
                             <div class="col-md-8">
-                                <textarea id="address" type="text" class="form-control" name="address" cols="20" required></textarea>
+                                <textarea id="address" v-model="form.address" type="text" class="form-control" name="address" cols="20" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -80,24 +99,98 @@
 export default {
     data: function () {
         return {
-            editmode:false,
+            editmode: false,
+            restaurants: {},
+
+            form: new Form({
+                id: '',
+                name: '',
+                phone: '',
+                address: '',
+            })
         }
     },
     methods: {
-        loadUsers: function () {
+        getResults: function () {
             axios.get("api/restaurant").then((res) => {
-                console.log(res.data)
+                this.restaurants = res.data
             });
         },
 
         newModal() {
+            this.form.reset()
+            this.editmode = false
             $('#addNew').modal('show');
         },
+
+        createRes() {
+            this.$Progress.start();
+            this.form.post('api/restaurant').then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Success!',
+                    'تم حفظ البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        editModal(res) {
+            this.editmode = true
+            this.form.fill(res)
+            $('#addNew').modal('show');
+        },
+
+        updateRes() {
+            this.$Progress.start();
+            this.form.put('api/restaurant/' + this.form.id).then(() => {
+                $('#addNew').modal('hide');
+                swal.fire(
+                    'Updated!',
+                    'تم تعديل البيانات بنجاح',
+                    'success'
+                )
+                this.$Progress.finish();
+                Fire.$emit('AfterCreate');
+            }).catch(() => {
+                this.$Progress.fail();
+            });
+        },
+
+        deleteRes(id) {
+            swal.fire({
+                title: 'متأكد ؟',
+                text: "لا يمكنك استرجاع البيانات",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم متأكد !'
+            }).then((result) => {
+                if (result.value) {
+                    this.form.delete('api/restaurant/' + id).then(() => {
+                        swal.fire(
+                            'Deleted!',
+                            'تم الحذف بنجاح',
+                            'success'
+                        )
+                        Fire.$emit('AfterCreate');
+                    })
+                }
+            })
+        }
 
     },
 
     created() {
-        this.loadUsers();
+        this.getResults();
+        Fire.$on('AfterCreate', () => {
+            this.getResults();
+        });
     },
 }
 </script>
