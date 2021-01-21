@@ -120,6 +120,9 @@
                 </div>
 
                 <div class="card-body" id="printTable">
+                    <div class="modal-header justify-content-center">
+                        <img src="storage/noImage.jpg" alt="logo" width="100px" height="100px" class="rounded-circle img-responsive">
+                    </div>
                     <table class="table table-bordered table-striped">
                         <tbody>
                             <tr>
@@ -163,7 +166,7 @@
                 </div>
 
                 <div class="card-footer">
-                    <button class="btn btn-info"  @click="print"><i class="fas fa-print fa-fw"></i>&nbsp; طباعة</button>
+                    <button class="btn btn-info" @click="print"><i class="fas fa-print fa-fw"></i>&nbsp; طباعة</button>
                 </div>
             </div>
         </div>
@@ -179,8 +182,8 @@ export default {
             menus: {},
             restaurants: {},
             delivery: {},
-            foods:{},
-            order:{},
+            foods: {},
+            order: {},
 
             form: new Form({
                 id: '',
@@ -201,19 +204,18 @@ export default {
         allSelected: function (val) {
             this.form.userIds = []
             if (val)
-                for (var user in this.menus['data']) {
-                    this.form.userIds.push(this.menus['data'][user].id);
-                }
+                for (var user in this.menus['data'])
+                    this.form.userIds.push(this.menus['data'][user].id)
         }
     },
 
     methods: {
-        print(){
+        print() {
             this.$htmlToPaper('printTable');
         },
 
-        total(x,y){
-            return parseInt(x)+parseInt(y)
+        total(x, y) {
+            return parseInt(x) + parseInt(y)
         },
 
         select() {
@@ -234,7 +236,7 @@ export default {
         },
 
         get_foods() {
-            axios.get("api/order_get_foods/"+this.form.userIds).then((res) => {
+            axios.get("api/order_get_foods/" + this.form.userIds).then((res) => {
                 this.foods = res.data
             });
         },
@@ -245,7 +247,7 @@ export default {
             })
         },
 
-        get_order(){
+        get_order() {
             axios.get('api/order').then((res) => {
                 this.order = res.data[0]
             })
