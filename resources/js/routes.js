@@ -4,7 +4,6 @@ import VueRoute from 'vue-router'
 import clients from './components/clients'
 import expenses from './components/expenses'
 import monthly_sub from './components/monthly_sub'
-import order_sub from './components/order_sub'
 import restaurant from './components/restaurant'
 import delivery from './components/delivery'
 import order from './components/order'
@@ -18,7 +17,6 @@ const routes = [
     { name: 'clients', path: '/clients', component: clients },
     { name: 'expenses', path: '/expenses', component: expenses },
     { name: 'monthly_sub', path: '/monthly_sub', component: monthly_sub },
-    { name: 'order_sub', path: '/order_sub', component: order_sub },
     { name: 'restaurant', path: '/restaurant', component: restaurant },
     { name: 'delivery', path: '/delivery', component: delivery },
     { name: 'order', path: '/order', component: order },

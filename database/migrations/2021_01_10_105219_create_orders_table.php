@@ -15,15 +15,14 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('restaurant_id');
             $table->unsignedBigInteger('delivery_id');
             $table->string('name');
             $table->string('phone');
             $table->string('address');
-            $table->string('food');
-            $table->integer('price');
-            $table->string('restaurant');
+            $table->string('food_list');
+            $table->integer('total_price');
+            $table->string('user_name');
             $table->timestamps();
         });
     }

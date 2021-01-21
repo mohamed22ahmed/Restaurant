@@ -6,10 +6,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">قائمة المطاعم</h3>
+                        <h3 class="card-title" style="float:right;">قائمة المطاعم</h3>
 
-                        <div class="card-tools">
-                            <button class="btn btn-success" @click="newModal">اضافة مطعم<i class="fas fa-user-plus fa-fw"></i></button>
+                        <div class="card-tools" style="float:left;">
+                            <button class="btn btn-success" @click="newModal">
+                                <i class="fas fa-plus fa-fw"></i>&nbsp; اضافة مطعم
+                            </button>
                         </div>
                     </div>
 

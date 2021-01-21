@@ -6,11 +6,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">قائمة العملاء</h3>
-
-                        <div class="card-tools">
-                            <button class="btn btn-success" @click="newModal">اضافة عميل<i class="fas fa-user-plus fa-fw"></i></button>
+                        <div class="card-tools" style="float:left;">
+                            <button class="btn btn-success" @click="newModal">
+                                <i class="fas fa-user-plus fa-fw"></i>&nbsp; اضافة عميـل
+                            </button>
                         </div>
+                        <h3 class="card-title" style="float:right;">قائمة العملاء</h3>
                     </div>
 
                     <div class="card-body table-responsive p-0">

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>اطلب واتمنى</title>
+        <title>أطلــب و أتمنــى</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Font Awesome Icons -->
@@ -29,7 +29,7 @@
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <ul class="navbar-nav ml-auto">
                     <li>
-                        <ul class="navbar-nav ml-auto">
+                        <ul class="navbar-nav ml-auto" style="padding-right:1100px">
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ session('user')->name }} <span class="caret"></span>
@@ -37,7 +37,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/logout">
-                                        Logout
+                                        تسجيـل الخــروج
                                     </a>
                                 </div>
                             </li>
@@ -50,12 +50,12 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <a href="/home" class="brand-link">
                     <div class="row justify-content-center mb-2">
-                        <img src="{{ asset('storage/noImage.jpg') }}" alt="AdminLTE Logo" class="rounded-circle img-responsive elevation-3"
+                        <img src="{{ asset('storage/noImage.jpg') }}" alt="logo" class="rounded-circle img-responsive elevation-3"
                         style="opacity: 1;height:70px;">
                     </div>
                     <div class="row  justify-content-center">
-                        <span class="brand-text font-weight-light">اطلب واتمنى</span>
-                    </div>  
+                        <span class="brand-text font-weight-light">أطلــب وأتمنــى</span>
+                    </div>
                 </a>
 
                 {{--  main sidebar  --}}
