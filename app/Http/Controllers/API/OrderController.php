@@ -31,17 +31,24 @@ class OrderController extends Controller
     }
 
     public function get_foods($ids){
-        $foods=explode(',',$ids);
-        return Menu::whereIn('id',$foods)->get();
+        $foods = explode(',',$ids);
+        $foods = Menu::whereIn('id',$foods)->get();
+        $id = Order::max('id');
+        $order=Order::find($id);
+        $order_num = explode(',', $order->ordernum_list);
+        
+        return [$foods,$order_num];
     }
 
     public function store(Request $request){
         $total=0;
-        foreach($request->userIds as $id){
-            $menu=Menu::find($id);
-            $total+=(int)$menu->price;
+        for($i=0;$i<count($request->userIds);$i++){
+            $menu=Menu::find($request->userIds[$i]);
+            $total+=(int)$menu->price * (int)$request->orderNum[$i];
         }
+        
         $food_list=implode(',',$request->userIds);
+        $ordernum_list = implode(',', $request->orderNum);
         $order=new Order;
         $order->name=$request->name;
         $order->phone=$request->phone;
@@ -49,6 +56,7 @@ class OrderController extends Controller
         $order->restaurant_id=$request->restaurant_id;
         $order->delivery_id=$request->delivery_id;
         $order->food_list=$food_list;
+        $order->ordernum_list=$ordernum_list;
         $order->total_price=$total;
         $order->user_name=session('user')->name;
         $order->save();

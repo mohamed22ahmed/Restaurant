@@ -15,6 +15,15 @@
                         </div>
                     </div>
 
+                    <div class="card-header row" style="float:right;">
+                        <div class="col-md-3">
+                            <label for="filters">المصروفات والمشتريات على أساس</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" class="form-control" name="filters" v-model="filters" @change="getResults">
+                        </div>
+                    </div>
+
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover">
                             <tbody>
@@ -94,6 +103,7 @@ export default {
         return {
             editmode: false,
             expenses: {},
+            filters: new Date().toISOString().slice(0, 10),
 
             form: new Form({
                 id: '',
@@ -104,7 +114,7 @@ export default {
     },
     methods: {
         getResults: function () {
-            axios.get("api/expenses").then((res) => {
+            axios.get("api/get_expenses/"+this.filters).then((res) => {
                 this.expenses = res.data
             });
         },

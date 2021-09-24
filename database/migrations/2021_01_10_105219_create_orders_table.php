@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('food_list');
+            $table->string('ordernum_list');
             $table->integer('total_price');
             $table->string('user_name');
             $table->timestamps();

@@ -7,5 +7,7 @@ Route::get('/register','LangController@reg');
 Route::post('/register','LangController@register');
 Route::get('/logout','LangController@logout');
 
+Route::get('printing', 'LangController@print');
+
 Route::get('/home','LangController@home')->middleware('admin');
 Route::get('{any}', 'LangController@home')->where('any', '([A-z\d\-\/_.]+)');
